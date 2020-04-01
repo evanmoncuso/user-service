@@ -2,6 +2,8 @@ import * as express from 'express';
 import * as bp from 'body-parser';
 import * as cors from 'cors';
 
+import { createUser } from './routes/users';
+
 const PORT = process.env.PORT;
 
 export default function main() {
@@ -9,7 +11,6 @@ export default function main() {
     if (!PORT) {
       throw new Error('No PORT specified')
     }
-    
 
     const app = express();
 
@@ -35,6 +36,10 @@ export default function main() {
     app.get('/health', (_, res: express.Response) => {
       res.sendStatus(204);
     });
+
+    // Unauthenticated Paths
+    app.post('/users', createUser);
+
 
     app.listen(PORT, () => {
       console.log(`listening on port: ${PORT}`);

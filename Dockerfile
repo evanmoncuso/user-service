@@ -9,7 +9,7 @@ RUN yarn
 
 COPY . .
 
-EXPOSE 3050
+EXPOSE 3052
 
 RUN yarn build
 
