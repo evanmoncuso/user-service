@@ -24,7 +24,7 @@ export default function main() {
       type: [
         'application/json',
         'application/vnd.api+json',
-      ],
+      ]
     }));
 
     // logger
@@ -39,7 +39,6 @@ export default function main() {
 
     // Unauthenticated Paths
     app.post('/users', createUser);
-
 
     app.listen(PORT, () => {
       console.log(`listening on port: ${PORT}`);
