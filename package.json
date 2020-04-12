@@ -13,6 +13,7 @@
   "scripts": {
     "build": "tsc",
     "build:dev": "tsc -w",
+    "build:docker": "docker build --tag=node-user-service .",
     "develop": "source .private/local.sh && concurrently \"yarn run build:dev\" \"yarn run start:dev\"",
     "start": "node app.js",
     "start:dev": "nodemon dist/app.js",
@@ -25,7 +26,10 @@
     "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "pg": "^8.0.0",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.24"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

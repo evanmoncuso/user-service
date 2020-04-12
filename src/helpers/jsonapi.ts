@@ -26,7 +26,7 @@ function decodeElement(element: JSONAPIElement): object {
  * @param {object} payload - JSONAPI object
  * @returns {object | object[]} - corresponding object or array of objects
  */
-export function decode(payload: JSONAPIShell): object | object[] {
+export function decode<T>(payload: JSONAPIShell): { [key: string]: any } {
   // ignore "type" for now
 
   if (Array.isArray(payload.data)) {
@@ -36,31 +36,41 @@ export function decode(payload: JSONAPIShell): object | object[] {
   return decodeElement(payload.data);
 }
 
-function encodeElement(element: { [ key: string ]: any }, type: string): JSONAPIElement {
+
+
+
+function encodeElement(element: { [ key: string ]: any }, type: string, userUUID?: boolean): JSONAPIElement {
   const output = {
-    id: element.id,
+    id: userUUID ? element.uuid : element.id,
     type,
     attributes: {}
   }
 
-  delete element.id
+  delete element.id;
+  
+  if (userUUID) delete element.uuid;
 
   output.attributes = { ...element }
 
   return output;
 }
 
+interface EncodingOptions {
+  meta?: object, 
+  useUUID?: boolean
+}
+
 /**
  * encode takes a normal object or list of objects and converts it into simple JSONAPI format
  * @param
  */
-export function encode(source: object | object[], type: string, meta?: object): JSONAPIShell {
+export function encode(source: object | object[], type: string, { meta, useUUID }: EncodingOptions): JSONAPIShell {
   const output: JSONAPIShell = {}
 
   if (Array.isArray(source)) {
-    output.data = source.map((e) => encodeElement(e, type));
+    output.data = source.map((e) => encodeElement(e, type), useUUID);
   } else {
-    output.data = encodeElement(source, type);
+    output.data = encodeElement(source, type, useUUID);
   }
 
   if (meta) {

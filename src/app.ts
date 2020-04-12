@@ -2,15 +2,20 @@ import * as express from 'express';
 import * as bp from 'body-parser';
 import * as cors from 'cors';
 
+import { initialize } from './data/initialize';
 import { createUser } from './routes/users';
+import { getUserByUUID, editUser, deleteUser } from './routes/user';
+
 
 const PORT = process.env.PORT;
 
-export default function main() {
+export default async function main() {
   try {
     if (!PORT) {
       throw new Error('No PORT specified')
     }
+
+    await initialize();
 
     const app = express();
 
@@ -39,6 +44,11 @@ export default function main() {
 
     // Unauthenticated Paths
     app.post('/users', createUser);
+
+    // Authenticated Paths
+    app.get('/users/:user_uuid', getUserByUUID);
+    app.patch('/users/:user_uuid', editUser);
+    app.delete('/users/:user_uuid', deleteUser);
 
     app.listen(PORT, () => {
       console.log(`listening on port: ${PORT}`);
