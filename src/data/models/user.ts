@@ -27,13 +27,13 @@ export default class User extends BaseEntity {
   @Column({ nullable: false, select: false })
   password!: string;
 
-  @Column({ name: 'first_name' })
+  @Column({ name: 'first_name', nullable: true })
   firstName?: string;
 
-  @Column({ name: 'last_name' })
+  @Column({ name: 'last_name', nullable: true })
   lastName?: string;
 
-  @Column({ name: 'email_address' })
+  @Column({ name: 'email_address', nullable: true })
   emailAddress?: string;
 
   @ManyToMany(type => Permission, { eager: true, cascade: true })

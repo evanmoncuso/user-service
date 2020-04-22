@@ -46,6 +46,9 @@ export async function createUser(req: Request, res: Response): Promise<void> {
     if (user.lastName) record.lastName = user.lastName;
     if (user.emailAddress) record.emailAddress = user.emailAddress;
 
+    // can't create users who are admins
+    user.permissions = user.permissions.filter((p) => p !== 'ADMIN');
+
     // find permissions if they exist
     const permissions = await Promise.all(
       user.permissions.map(async (permissionName) => {

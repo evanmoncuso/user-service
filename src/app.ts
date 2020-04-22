@@ -4,7 +4,7 @@ import * as cors from 'cors';
 
 import { initialize } from './data/initialize';
 import { createUser } from './routes/users';
-import { getUserByUUID, editUser, promoteUser, deleteUser } from './routes/user';
+import { getUserByUUID, editUser, promoteUser, revokeUserPermission, deleteUser } from './routes/user';
 
 import { createTokenAuthMiddleware } from '@evanmoncuso/token-auth-middleware';
 
@@ -54,6 +54,7 @@ export default async function main() {
     app.get('/users/:user_uuid', createTokenAuthMiddleware(), getUserByUUID);
     app.patch('/users/:user_uuid', createTokenAuthMiddleware(), editUser);
     app.patch('/users/:user_uuid/promote', createTokenAuthMiddleware({ roles: [ 'ADMIN' ]}), promoteUser);
+    app.patch('/users/:user_uuid/revoke', createTokenAuthMiddleware({ roles: [ 'ADMIN' ] }), revokeUserPermission);
     app.delete('/users/:user_uuid', createTokenAuthMiddleware({ roles: [ 'ADMIN' ]}), deleteUser);
 
     app.listen(PORT, () => {

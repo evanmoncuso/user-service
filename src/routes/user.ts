@@ -128,8 +128,35 @@ export async function promoteUser(req: Request, res: Response) {
       await record.save();
     }
 
-    res.status(200).send({ apples: record });
+    res.send(encode(record, 'user', { useUUID: true }));
   } catch(e) {
+    res.status(500);
+  }
+}
+
+export async function revokeUserPermission(req: Request, res: Response) {
+  try {
+    const uuid = req.params.user_uuid;
+    const record = await User.findOne({
+      where: { uuid }
+    });
+
+    if (record === undefined) {
+      res.status(404).send({
+        error: 'No record found of uuid'
+      });
+      return
+    }
+
+    const finalPermissions = record.permissions.filter(({ title }) => !req.body.permissions.includes(title));
+
+    if (finalPermissions.length !== record.permissions.length) {
+      record.permissions = finalPermissions
+      await record.save();
+    }
+
+    res.send(encode(record, 'user', { useUUID: true }));
+  } catch (e) {
     res.status(500);
   }
 }
