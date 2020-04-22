@@ -23,6 +23,7 @@
     "test:watch": "jest -w"
   },
   "dependencies": {
+    "@evanmoncuso/token-auth-middleware": "^0.3.0",
     "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",

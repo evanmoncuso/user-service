@@ -5,7 +5,6 @@ import User, { UserInterface } from '../data/models/user';
 import Permission from '../data/models/permission';
 import { decode, encode } from '../helpers/jsonapi';
 
-
 export async function createUser(req: Request, res: Response): Promise<void> {
   try {
     const { body } = req;

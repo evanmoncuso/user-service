@@ -4,8 +4,9 @@ import * as cors from 'cors';
 
 import { initialize } from './data/initialize';
 import { createUser } from './routes/users';
-import { getUserByUUID, editUser, deleteUser } from './routes/user';
+import { getUserByUUID, editUser, promoteUser, deleteUser } from './routes/user';
 
+import { createTokenAuthMiddleware } from '@evanmoncuso/token-auth-middleware';
 
 const PORT = process.env.PORT;
 
@@ -13,6 +14,10 @@ export default async function main() {
   try {
     if (!PORT) {
       throw new Error('No PORT specified')
+    }
+
+    if (!process.env.ACCESS_TOKEN_SECRET) {
+      throw new Error('No ACCESS_TOKEN_SECRET provided');
     }
 
     await initialize();
@@ -46,9 +51,10 @@ export default async function main() {
     app.post('/users', createUser);
 
     // Authenticated Paths
-    app.get('/users/:user_uuid', getUserByUUID);
-    app.patch('/users/:user_uuid', editUser);
-    app.delete('/users/:user_uuid', deleteUser);
+    app.get('/users/:user_uuid', createTokenAuthMiddleware(), getUserByUUID);
+    app.patch('/users/:user_uuid', createTokenAuthMiddleware(), editUser);
+    app.patch('/users/:user_uuid/promote', createTokenAuthMiddleware({ roles: [ 'ADMIN' ]}), promoteUser);
+    app.delete('/users/:user_uuid', createTokenAuthMiddleware({ roles: [ 'ADMIN' ]}), deleteUser);
 
     app.listen(PORT, () => {
       console.log(`listening on port: ${PORT}`);
