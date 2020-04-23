@@ -1,6 +1,6 @@
 {
-  "name": "ts-starter",
-  "version": "1.0.0",
+  "name": "user-service",
+  "version": "0.1.0",
   "description": "A Typescript starter pack for node projects",
   "main": "index.js",
   "author": "Evan Moncuso",
@@ -11,9 +11,9 @@
     "express"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --pretty",
     "build:dev": "tsc -w",
-    "build:docker": "docker build --tag=node-user-service .",
+    "build:docker": "docker build --tag=evanmoncuso/user-service .",
     "develop": "source .private/local.sh && concurrently \"yarn run build:dev\" \"yarn run start:dev\"",
     "start": "node app.js",
     "start:dev": "nodemon dist/app.js",

@@ -1,4 +1,4 @@
-type ID = string | number
+type ID = string | number | null
 
 interface JSONAPIShell {
   data?: JSONAPIElement[] | JSONAPIElement,
@@ -12,9 +12,11 @@ interface JSONAPIElement {
   attributes: object,
 }
 
-function decodeElement(element: JSONAPIElement): object {
+function decodeElement<T>(element: JSONAPIElement): T {
+  if (!element.id) element.id = null;
+
   const output = {
-    id: element.id,
+    id: element.id || null,
     ...element.attributes,
   }
 
@@ -26,14 +28,17 @@ function decodeElement(element: JSONAPIElement): object {
  * @param {object} payload - JSONAPI object
  * @returns {object | object[]} - corresponding object or array of objects
  */
-export function decode<T>(payload: JSONAPIShell): { [key: string]: any } {
+export function decode<T>(payload: JSONAPIShell): T | T[] {
   // ignore "type" for now
-
-  if (Array.isArray(payload.data)) {
-    return payload.data.map((element) => decodeElement(element));
+  if (!payload.data) {
+    throw new Error('No "data" property on object to decode');
   }
 
-  return decodeElement(payload.data);
+  if (Array.isArray(payload.data)) {
+    return payload.data.map((element) => decodeElement<T>(element));
+  }
+
+  return decodeElement<T>(payload.data);
 }
 
 
@@ -47,7 +52,7 @@ function encodeElement(element: { [ key: string ]: any }, type: string, userUUID
   }
 
   delete element.id;
-  
+
   if (userUUID) delete element.uuid;
 
   output.attributes = { ...element }
@@ -56,8 +61,8 @@ function encodeElement(element: { [ key: string ]: any }, type: string, userUUID
 }
 
 interface EncodingOptions {
-  meta?: object, 
-  useUUID?: boolean
+  meta?: object,
+  useUUID?: boolean,
 }
 
 /**

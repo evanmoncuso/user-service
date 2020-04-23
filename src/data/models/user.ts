@@ -58,14 +58,14 @@ export default class User extends BaseEntity {
 }
 
 export interface UserInterface {
-  id ?: number;
-  uuid ?: string;
+  id?: number;
+  uuid?: string;
   username: string;
   password: string;
-  firstName ?: string;
-  lastName ?: string;
-  emailAddress ?: string;
+  firstName?: string;
+  lastName?: string;
+  emailAddress?: string;
   permissions: string[];
-  createdAt ?: Date;
-  lastModified ?: Date;
+  createdAt?: Date;
+  lastModified?: Date;
 }

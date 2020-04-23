@@ -17,7 +17,7 @@ export async function getUserByUUID(req: Request, res: Response) {
       return
     }
 
-    const record = await User.findOne({ 
+    const record = await User.findOne({
       where: { uuid: req.params.user_uuid },
     });
 
@@ -56,17 +56,22 @@ export async function editUser(req: Request, res: Response) {
     return
   }
 
-
-  const updates: UserInterface = decode(body);
+  const payload = decode<UserInterface>(body);
+  if (Array.isArray(payload)) {
+    res.status(400).send({
+      error: 'Cannot send collection on update request',
+    });
+    return
+  }
 
   // can't update certain fields, so just disregard them
-  delete updates.id;
-  delete updates.uuid;
-  delete updates.username;
-  delete updates.password;
-  delete updates.permissions;
-  delete updates.createdAt;
-  delete updates.lastModified;
+  delete payload.id;
+  delete payload.uuid;
+  delete payload.username;
+  delete payload.password;
+  delete payload.permissions;
+  delete payload.createdAt;
+  delete payload.lastModified;
 
   res.sendStatus(204)
 }
@@ -109,7 +114,7 @@ export async function promoteUser(req: Request, res: Response) {
     }
 
     const permissionNames = record.permissions.map(({ title }: Permission) => title);
-    const permissions = await Promise.all(
+    const permissions: Permission[] = await Promise.all(
       req.body.permissions.map(async (permissionName: string) => {
         const p: Permission | undefined = await Permission.findOne({
           where: { title: permissionName.toUpperCase() }

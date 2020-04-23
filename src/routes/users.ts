@@ -9,7 +9,7 @@ export async function createUser(req: Request, res: Response): Promise<void> {
   try {
     const { body } = req;
 
-    const user: UserInterface = decode(body);
+    const user: UserInterface | { [key: string]: any } = decode(body);
     const { username, password } = user;
 
     if (!username || !password) {
@@ -47,11 +47,11 @@ export async function createUser(req: Request, res: Response): Promise<void> {
     if (user.emailAddress) record.emailAddress = user.emailAddress;
 
     // can't create users who are admins
-    user.permissions = user.permissions.filter((p) => p !== 'ADMIN');
+    user.permissions = user.permissions.filter((p: string) => p !== 'ADMIN');
 
     // find permissions if they exist
-    const permissions = await Promise.all(
-      user.permissions.map(async (permissionName) => {
+    const permissions: Permission[] = await Promise.all(
+      user.permissions.map(async (permissionName: string) => {
         const p: Permission | undefined = await Permission.findOne({
           where: { title: permissionName.toUpperCase() }
         });
