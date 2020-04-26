@@ -17,6 +17,7 @@
     "develop": "source .private/local.sh && concurrently \"yarn run build:dev\" \"yarn run start:dev\"",
     "start": "node dist/app.js",
     "start:dev": "nodemon dist/app.js",
+    "start:heroku": "source .private/heroku.sh && yarn build && yarn start",
     "test": "yarn run test:lint && yarn run test:jest",
     "test:jest": "jest",
     "test:lint": "eslint . --ext .js,.ts",

@@ -12,7 +12,7 @@ interface JSONAPIElement {
   attributes: object;
 }
 
-function decodeElement<T>(element: JSONAPIElement): T {
+function decodeElement<T>(element: JSONAPIElement): any {
   if (!element.id) element.id = null;
 
   const output = {
