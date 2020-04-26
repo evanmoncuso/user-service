@@ -23,9 +23,9 @@ describe('Helpers | JSONAPI | Decode', () => {
         attributes: {
           name: 'sufjan stevens',
           active: true,
-          albums: [ 'seven swans', 'illinois', 'michigan' ]
-        }
-      }
+          albums: [ 'seven swans', 'illinois', 'michigan', ],
+        },
+      },
     }
 
     test('returns the correct output', () => {
@@ -35,7 +35,7 @@ describe('Helpers | JSONAPI | Decode', () => {
         id: 1,
         name: 'sufjan stevens',
         active: true,
-        albums: ['seven swans', 'illinois', 'michigan']
+        albums: ['seven swans', 'illinois', 'michigan',],
       }
   
       expect(output).toEqual(expected);
@@ -50,17 +50,17 @@ describe('Helpers | JSONAPI | Decode', () => {
         attributes: {
           name: 'sufjan stevens',
           active: true,
-          albums: ['seven swans', 'illinois', 'michigan']
-        }
+          albums: ['seven swans', 'illinois', 'michigan',],
+        },
       }, {
         id: 2,
         type: 'artist',
         attributes: {
           name: 'bon iver',
           active: true,
-          albums: ['for emma', 'bon iver', '22, a million', 'i,i']
-        }
-      }]
+          albums: ['for emma', 'bon iver', '22, a million', 'i,i',],
+        },
+      },],
     }
 
     test('returns the correct output', () => {
@@ -69,14 +69,14 @@ describe('Helpers | JSONAPI | Decode', () => {
         id: 1,
         name: 'sufjan stevens',
         active: true,
-        albums: ['seven swans', 'illinois', 'michigan']
+        albums: ['seven swans', 'illinois', 'michigan',],
 
       }, {
         id: 2,
         name: 'bon iver',
         active: true,
-        albums: ['for emma', 'bon iver', '22, a million', 'i,i']
-      }]
+        albums: ['for emma', 'bon iver', '22, a million', 'i,i',],
+      },]
       
       expect(output).toEqual(expected);
     });
@@ -104,7 +104,7 @@ describe('Helpers | JSONAPI | encode', () => {
       id: 1,
       name: 'tallest man on earth',
       active: true,
-      albums: [ 'shallow graves', 'the dreamer ep', 'the wild hunt' ]
+      albums: [ 'shallow graves', 'the dreamer ep', 'the wild hunt', ],
     }
 
     const output = encode(sampleObject, 'artist');
@@ -115,9 +115,9 @@ describe('Helpers | JSONAPI | encode', () => {
         attributes: {
           name: 'tallest man on earth',
           active: true,
-          albums: [ 'shallow graves', 'the dreamer ep', 'the wild hunt' ]
-        }
-      }
+          albums: [ 'shallow graves', 'the dreamer ep', 'the wild hunt', ],
+        },
+      },
     }
     test('it encodes a single object', () => {
       expect(output).toEqual(expected);
@@ -130,13 +130,13 @@ describe('Helpers | JSONAPI | encode', () => {
         id: 1,
         name: 'neutral milk hotel',
         active: false,
-        albums: [ 'avery island', 'in the aeroplane over the sea' ],
+        albums: [ 'avery island', 'in the aeroplane over the sea', ],
       }, {
         id: 2,
         name: 'grizzly bear',
         active: false,
-        albums: [ 'yellow house', 'shields', 'veckatimest' ]
-      }
+        albums: [ 'yellow house', 'shields', 'veckatimest', ],
+      },
     ];
 
     const output = encode(sampleList, 'artist');
@@ -149,9 +149,9 @@ describe('Helpers | JSONAPI | encode', () => {
           active: false,
           albums: [ 
             'avery island', 
-            'in the aeroplane over the sea' ],
+            'in the aeroplane over the sea', ],
 
-        }
+        },
       }, {
         id: 2,
         type: 'artist',
@@ -161,10 +161,10 @@ describe('Helpers | JSONAPI | encode', () => {
           albums: [ 
             'yellow house', 
             'shields', 
-            'veckatimest' 
-          ]
-        }
-      }]
+            'veckatimest',
+          ],
+        },
+      },],
     }
 
     test('it encodes an array of objects', () => {
@@ -177,7 +177,7 @@ describe('Helpers | JSONAPI | encode', () => {
     const sampleObject = {
       name: 'tallest man on earth',
       active: true,
-      albums: ['shallow graves', 'the dreamer ep', 'the wild hunt']
+      albums: ['shallow graves', 'the dreamer ep', 'the wild hunt',],
     }
 
     const output = encode(sampleObject, 'artist');
@@ -190,10 +190,10 @@ describe('Helpers | JSONAPI | encode', () => {
           albums: [
             'shallow graves', 
             'the dreamer ep', 
-            'the wild hunt'
-          ]
-        }
-      }
+            'the wild hunt',
+          ],
+        },
+      },
     }
 
     test('it encodes a single object', () => {

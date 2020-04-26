@@ -4,27 +4,27 @@ import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
 
-@Entity({ name: 'permissions' })
+@Entity({ name: 'permissions', })
 export default class Permission extends BaseEntity {
-  @PrimaryGeneratedColumn({ name: 'permission_id' })
+  @PrimaryGeneratedColumn({ name: 'permission_id', })
   id?: number;
 
-  @Column({ name: 'permission_uuid' })
+  @Column({ name: 'permission_uuid', })
   uuid!: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, })
   title!: string;
 
-  @Column({ nullable: false, name: 'display_name' })
+  @Column({ nullable: false, name: 'display_name', })
   displayName!: string;
 
-  @CreateDateColumn({ name: 'created_at', select: false })
+  @CreateDateColumn({ name: 'created_at', select: false, })
   createdAt?: Date;
 
-  @UpdateDateColumn({ name: 'last_updated', select: false })
+  @UpdateDateColumn({ name: 'last_updated', select: false, })
   lastModified?: Date;
 }
 
@@ -33,5 +33,4 @@ export interface PermissionInterface {
   title: string;
   displayName: string;
   uuid: string;
-  [key: string]: any
 }

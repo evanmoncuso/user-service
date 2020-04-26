@@ -1,0 +1,14 @@
+# build
+babel.config.js
+jest.config.js
+tsconfig.json
+
+node_modules
+dist
+
+# docker
+Dockerfile 
+.dockerignore
+
+# git
+

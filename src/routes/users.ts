@@ -7,21 +7,21 @@ import { decode, encode } from '../helpers/jsonapi';
 
 export async function createUser(req: Request, res: Response): Promise<void> {
   try {
-    const { body } = req;
+    const { body, } = req;
 
     const user: UserInterface | { [key: string]: any } = decode(body);
-    const { username, password } = user;
+    const { username, password, } = user;
 
     if (!username || !password) {
       res.status(400).send({
-        errors: [{ message: 'Body does not contain username and/or password field(s)' }]
+        errors: [{ message: 'Body does not contain username and/or password field(s)', },],
       })
       return
     }
 
     if (user.permissions.length === 0) {
       res.status(400).send({
-        errors: [{ message: 'User needs at least one permission level' }]
+        errors: [{ message: 'User needs at least one permission level', },],
       });
       return
     }
@@ -29,7 +29,7 @@ export async function createUser(req: Request, res: Response): Promise<void> {
     // password is at most 64 characters long
     if (password.length > 64) {
       res.status(400).send({
-        error: 'Password is too long. Password must be less that 65 characters'
+        error: 'Password is too long. Password must be less that 65 characters',
       });
       return
     }
@@ -53,7 +53,7 @@ export async function createUser(req: Request, res: Response): Promise<void> {
     const permissions: Permission[] = await Promise.all(
       user.permissions.map(async (permissionName: string) => {
         const p: Permission | undefined = await Permission.findOne({
-          where: { title: permissionName.toUpperCase() }
+          where: { title: permissionName.toUpperCase(), },
         });
 
         if (!p) throw new Error(`Unable to find permission of type: "${permissionName}"`);
@@ -72,10 +72,10 @@ export async function createUser(req: Request, res: Response): Promise<void> {
     });
     delete record.password;
 
-    res.status(201).send(encode(record, 'user', { useUUID: true }));
+    res.status(201).send(encode(record, 'user', { useUUID: true, }));
   } catch(e) {
     res.status(500).send({
-      error: e.message
+      error: e.message,
     })
   }
 }

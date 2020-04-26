@@ -1,15 +1,15 @@
 type ID = string | number | null
 
 interface JSONAPIShell {
-  data?: JSONAPIElement[] | JSONAPIElement,
-  errors?: object,
-  meta?: object,
+  data?: JSONAPIElement[] | JSONAPIElement;
+  errors?: object;
+  meta?: object;
 }
 
 interface JSONAPIElement {
-  type: string,
-  id: ID
-  attributes: object,
+  type: string;
+  id: ID;
+  attributes: object;
 }
 
 function decodeElement<T>(element: JSONAPIElement): T {
@@ -48,28 +48,28 @@ function encodeElement(element: { [ key: string ]: any }, type: string, userUUID
   const output = {
     id: userUUID ? element.uuid : element.id,
     type,
-    attributes: {}
+    attributes: {},
   }
 
   delete element.id;
 
   if (userUUID) delete element.uuid;
 
-  output.attributes = { ...element }
+  output.attributes = { ...element, }
 
   return output;
 }
 
 interface EncodingOptions {
-  meta?: object,
-  useUUID?: boolean,
+  meta?: object;
+  useUUID?: boolean;
 }
 
 /**
  * encode takes a normal object or list of objects and converts it into simple JSONAPI format
  * @param
  */
-export function encode(source: object | object[], type: string, { meta, useUUID }: EncodingOptions): JSONAPIShell {
+export function encode(source: object | object[], type: string, { meta, useUUID, }: EncodingOptions): JSONAPIShell {
   const output: JSONAPIShell = {}
 
   if (Array.isArray(source)) {

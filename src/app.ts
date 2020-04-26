@@ -10,7 +10,7 @@ import { createTokenAuthMiddleware } from '@evanmoncuso/token-auth-middleware';
 
 const PORT = process.env.PORT;
 
-export default async function main() {
+export default async function main(): Promise<void> {
   try {
     if (!PORT) {
       throw new Error('No PORT specified')
@@ -27,14 +27,14 @@ export default async function main() {
     // Setup app usables
     app.use(cors());
 
-    app.use(bp.urlencoded({ extended: false }));
+    app.use(bp.urlencoded({ extended: false, }));
     app.use(bp.text());
 
     app.use(bp.json({
       type: [
         'application/json',
         'application/vnd.api+json',
-      ]
+      ],
     }));
 
     // logger
@@ -53,9 +53,9 @@ export default async function main() {
     // Authenticated Paths
     app.get('/users/:user_uuid', createTokenAuthMiddleware(), getUserByUUID);
     app.patch('/users/:user_uuid', createTokenAuthMiddleware(), editUser);
-    app.patch('/users/:user_uuid/promote', createTokenAuthMiddleware({ roles: [ 'ADMIN' ]}), promoteUser);
-    app.patch('/users/:user_uuid/revoke', createTokenAuthMiddleware({ roles: [ 'ADMIN' ] }), revokeUserPermission);
-    app.delete('/users/:user_uuid', createTokenAuthMiddleware({ roles: [ 'ADMIN' ]}), deleteUser);
+    app.patch('/users/:user_uuid/promote', createTokenAuthMiddleware({ roles: [ 'ADMIN', ],}), promoteUser);
+    app.patch('/users/:user_uuid/revoke', createTokenAuthMiddleware({ roles: [ 'ADMIN', ], }), revokeUserPermission);
+    app.delete('/users/:user_uuid', createTokenAuthMiddleware({ roles: [ 'ADMIN', ],}), deleteUser);
 
     app.listen(PORT, () => {
       console.log(`listening on port: ${PORT}`);
