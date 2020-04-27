@@ -53,9 +53,9 @@ export default async function main(): Promise<void> {
     // Authenticated Paths
     app.get('/users/:user_uuid', createTokenAuthMiddleware(), getUserByUUID);
     app.patch('/users/:user_uuid', createTokenAuthMiddleware(), editUser);
-    app.patch('/users/:user_uuid/promote', createTokenAuthMiddleware({ roles: [ 'ADMIN', ],}), promoteUser);
-    app.patch('/users/:user_uuid/revoke', createTokenAuthMiddleware({ roles: [ 'ADMIN', ], }), revokeUserPermission);
-    app.delete('/users/:user_uuid', createTokenAuthMiddleware({ roles: [ 'ADMIN', ],}), deleteUser);
+    app.patch('/users/:user_uuid/promote', createTokenAuthMiddleware({ allowRoles: [ 'ADMIN', ],}), promoteUser);
+    app.patch('/users/:user_uuid/revoke', createTokenAuthMiddleware({ allowRoles: [ 'ADMIN', ], }), revokeUserPermission);
+    app.delete('/users/:user_uuid', createTokenAuthMiddleware({ allowRoles: [ 'ADMIN', ],}), deleteUser);
 
     app.listen(PORT, () => {
       console.log(`listening on port: ${PORT}`);
